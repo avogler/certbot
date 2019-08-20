@@ -2,12 +2,100 @@
 
 Certbot adheres to [Semantic Versioning](https://semver.org/).
 
-## 0.35.0 - master
+## 0.38.0 - master
 
 ### Added
 
-* dns_rfc2136 plugin now supports explicitly specifing an authorative 
-  base domain for cases when the automatic method does not work (e.g. 
+*
+
+### Changed
+
+* If Certbot fails to rollback your server configuration, the error message
+  links to the Let's Encrypt forum. Change the link to the Help category now
+  that the Server category has been closed.
+
+### Fixed
+
+* Fixed OS detection in the Apache plugin on Scientific Linux.
+
+More details about these changes can be found on our GitHub repo.
+
+## 0.37.1 - 2019-08-08
+
+### Fixed
+
+* Stop disabling TLS session tickets in Apache as it caused TLS failures on
+  some systems.
+
+More details about these changes can be found on our GitHub repo.
+
+## 0.37.0 - 2019-08-07
+
+### Added
+
+* Turn off session tickets for apache plugin by default
+* acme: Authz deactivation added to `acme` module.
+
+### Changed
+
+* Follow updated Mozilla recommendations for Nginx ssl_protocols, ssl_ciphers,
+  and ssl_prefer_server_ciphers
+
+### Fixed
+
+* Fix certbot-auto failures on RHEL 8.
+
+More details about these changes can be found on our GitHub repo.
+
+## 0.36.0 - 2019-07-11
+
+### Added
+
+* Turn off session tickets for nginx plugin by default
+* Added missing error types from RFC8555 to acme
+
+### Changed
+
+* Support for Ubuntu 14.04 Trusty has been removed.
+* Update the 'manage your account' help to be more generic.
+* The error message when Certbot's Apache plugin is unable to modify your
+  Apache configuration has been improved.
+* Certbot's config_changes subcommand has been deprecated and will be
+  removed in a future release.
+* `certbot config_changes` no longer accepts a --num parameter.
+* The functions `certbot.plugins.common.Installer.view_config_changes` and
+  `certbot.reverter.Reverter.view_config_changes` have been deprecated and will
+  be removed in a future release.
+
+### Fixed
+
+* Replace some unnecessary platform-specific line separation.
+
+More details about these changes can be found on our GitHub repo.
+
+## 0.35.1 - 2019-06-10
+
+### Fixed
+
+* Support for specifying an authoritative base domain in our dns-rfc2136 plugin
+  has been removed. This feature was added in our last release but had a bug
+  which caused the plugin to fail so the feature has been removed until it can
+  be added properly.
+
+Despite us having broken lockstep, we are continuing to release new versions of
+all Certbot components during releases for the time being, however, the only
+package with changes other than its version number was:
+
+* certbot-dns-rfc2136
+
+More details about these changes can be found on our GitHub repo.
+
+## 0.35.0 - 2019-06-05
+
+### Added
+
+* dns_rfc2136 plugin now supports explicitly specifing an authorative
+  base domain for cases when the automatic method does not work (e.g.
   Split horizon DNS)
 
 ### Changed
@@ -16,12 +104,19 @@ Certbot adheres to [Semantic Versioning](https://semver.org/).
 
 ### Fixed
 
-*
+* Renewal parameter `webroot_path` is always saved, avoiding some regressions
+  when `webroot` authenticator plugin is invoked with no challenge to perform.
+* Certbot now accepts OCSP responses when an explicit authorized
+  responder, different from the issuer, is used to sign OCSP
+  responses.
+* Scripts in Certbot hook directories are no longer executed when their
+  filenames end in a tilde.
 
 Despite us having broken lockstep, we are continuing to release new versions of
 all Certbot components during releases for the time being, however, the only
 package with changes other than its version number was:
 
+* certbot
 * certbot-dns-rfc2136
 
 More details about these changes can be found on our GitHub repo.
@@ -68,6 +163,10 @@ More details about these changes can be found on our GitHub repo.
   `malformed` error to be received from the ACME server.
 * Linode DNS plugin now supports api keys created from their new panel
   at [cloud.linode.com](https://cloud.linode.com)
+
+### Fixed
+
+* Fixed Google DNS Challenge issues when private zones exist
 * Adding a warning noting that future versions of Certbot will automatically configure the
   webserver so that all requests redirect to secure HTTPS access. You can control this
   behavior and disable this warning with the --redirect and --no-redirect flags.
